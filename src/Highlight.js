@@ -11,8 +11,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 // import Delete from "./Delete";
 import Spinner from "./Spinner";
+import axios from 'axios';
 
-export default function Highlight({ data, close, user,}) {
+export default function Highlight({ data, close, user, name, setError}) {
   const ref = useRef();
   const videoRef = useRef();
   const [isLoading, setIsLoading] = useState(true);
@@ -79,6 +80,28 @@ export default function Highlight({ data, close, user,}) {
     // setFullScreen(!fullScreen);
   };
 
+  const download = async(filename, fileId)=>{
+    try{
+    const response = await axios.get(`https://videotool.onrender.com/download/${fileId}`, {
+      responseType: 'blob',
+  });
+
+  // Create a URL for the blob response
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        
+        // Clean up
+        link.remove();
+        window.URL.revokeObjectURL(url);}
+        catch(e){
+          setError('Something went wrong')
+        }
+  }
+
   return (
     <div
       className="back-highlight"
@@ -119,7 +142,7 @@ export default function Highlight({ data, close, user,}) {
                 setIsLoading(true);
               }}
             >
-              <source src={`http://localhost:5000/url/${data}`} type="video/mp4" />
+              <source src={`https://videotool.onrender.com/url/${data}`} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           )}
@@ -210,12 +233,12 @@ export default function Highlight({ data, close, user,}) {
          {(user == 'download' && !isLoading) && <button
             className="download-btn"
             onClick={() => {
-              
+              download(name, data)
               
             }}
             
-          >
-           <a style ={{textDecoration:"none", color:"white"}} target="_blank" href={`http://localhost:5000/download/${data}`}> Download</a>
+          >download
+           {/* <a style ={{textDecoration:"none", color:"white"}} download={name} href={`https://videotool.onrender.com/download/${data}`}> Download</a> */}
           </button>}
           
         </div>

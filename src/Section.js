@@ -17,7 +17,7 @@ export default function ({data, name, access}){
         if (/image/.test(e.mimeType)) {
           imageMap[key] = e.id; // Store in temp object
         } else {
-          videoMap[key] = e.id;
+          videoMap[key] = [e.id, e.name.split('.')[1]];
         }
       });
   
@@ -37,10 +37,10 @@ export default function ({data, name, access}){
 
         {highlight && (
           <Highlight
-            data={detail}
+            data={videos[detail][0]}
             close={setHighlight}
             user={access}
-            
+            name ={detail+'.'+videos[detail][1]}
           /> //highlight
         )}
 
@@ -52,12 +52,12 @@ export default function ({data, name, access}){
                 className="vid-box"
                 key ={i}
                 onClick={() => {
-                  setDetail(videos[e]);
+                  setDetail(e);
                   setHighlight(true);
                 }}
               >
                 <img
-                  src={ images[e] ? `http://localhost:5000/download/${images[e]}`: download }
+                  src={ images[e] ? `https://videotool.onrender.com/download/${images[e]}`: download }
                   height="200px"
                   alt="no Image"
                 /> 

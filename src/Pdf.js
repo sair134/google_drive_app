@@ -15,7 +15,7 @@ const Pdf = () => {
     if(pdfUrl) return;
     const fetchPdf = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/download/${id}`, {credentials: "include"});
+        const response = await fetch(`https://videotool.onrender.com/download/${id}`, {credentials: "include"});
         if (!response.ok) throw new Error("Failed to fetch PDF");
         const blob = await response.blob();
         setPdfUrl(URL.createObjectURL(blob));

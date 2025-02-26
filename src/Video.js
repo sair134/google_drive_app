@@ -1,23 +1,34 @@
 
 import {useState, useEffect} from 'react';
 import Section from './Section';
+import Spinner from './Spinner';
+import Error from './Error';
 
 
 export default function Video ({access}){
 
 const [data, setData] = useState({})    
 const [files, setFiles] = useState()
-const [thubnails, setThumbnails] = useState()
+const [loading, setLoading ] = useState(true)
 const [currsec, setCurrsec] = useState('All')
+const [error, setError] = useState(false)
+
 
 useEffect(()=>{
     const getVideos = async()=>{
         try{
-            const response = await fetch(`http://localhost:5000/files`, {credentials: "include"})
+            const response = await fetch(`https://videotool.onrender.com/files`, {credentials: "include"})
             const res = await response.json()
-            if(response.statusText == 'OK')setData(res)
+            if(response.status){setData(res)}
+            else{
+              setError(true)
+            }
             console.log(res)
-        }catch(e){console.error(e)}
+          setLoading(false)
+        }catch(e){console.error(e)
+          setLoading(false)
+          setError(true)
+        }
     }
 
 getVideos()
@@ -25,7 +36,12 @@ getVideos()
 }, [])
 
 
+if(loading)return <Spinner />
+if(error)return <Error />
+
+
     return(<>
+
          <div>
         <div
           id="title-flex"

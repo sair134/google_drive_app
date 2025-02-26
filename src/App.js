@@ -25,8 +25,8 @@ function App() {
   useEffect(()=>{
     const checkLogin = async()=>{
       try{
-      const resp = await axios.get('http://localhost:5000/verifyToken', {withCredentials: true})
-      if(resp.statusText == 'OK'){  
+      const resp = await axios.get('https://videotool.onrender.com/verifyToken', {withCredentials: true})
+      if(resp.status){  
       const data = JSON.parse(localStorage.getItem('data'))
         console.log(data)
         setAuth(data)

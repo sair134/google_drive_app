@@ -8,7 +8,7 @@ export default function Menubar({ width, setError, setPage, page, setMenu, setAu
   const logout =async ()=>{
     try{
     const resp = await axios.post(
-        "http://localhost:5000/logout",{},
+        "https://videotool.onrender.com/logout",{},
         { withCredentials: true }
       );
 
