@@ -237,7 +237,7 @@ export default function Highlight({ data, close, user, name, setError}) {
               
             }}
             
-          >download
+          >Download
            {/* <a style ={{textDecoration:"none", color:"white"}} download={name} href={`https://videotool.onrender.com/download/${data}`}> Download</a> */}
           </button>}
           
